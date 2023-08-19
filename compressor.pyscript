@@ -1,0 +1,25 @@
+from flpianoroll import *
+
+compression_factor = 0.8
+
+# Get max velocity from notes
+max_vel = 0
+index = False
+for i in range(score.noteCount):
+    note = score.getNote(i)
+    if note.selected:
+        if (note.velocity > max_vel):
+            max_vel = note.velocity
+            index = i
+
+# Get velocity offset
+vel_offset = score.getNote(index).velocity - \
+    score.getNote(index).velocity * compression_factor
+
+
+# loog through notes and compress by factor of 0.8
+for i in range(score.noteCount):
+    note = score.getNote(i)
+    if note.selected:
+        compressed_velocity = note.velocity * compression_factor + vel_offset
+        note.velocity = compressed_velocity
